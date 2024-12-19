@@ -3,19 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-commerce Fraud Detection</title>
+    <title>E-commerce Fraud Detector</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>E-commerce Fraud Detection</h1>
-
-        {% if survived is not none %}
-            <h2 class="animate__animated animate__bounce">Prediction: {{ "Fraud" if survived == 1 else "Legal" }}</h2>
+        <h1>E-commerce Fraud Detector</h1>
+        {% if request.method == 'POST' and survived is not none %}
+            <h2 class="animate__animated animate__bounce">Prediction: {{ "Fraud" if survived == 1 or purchase_over_time > 100 else "Legal" }}</h2>
         {% endif %}
 
         <form action="/predict" method="post">
@@ -27,7 +25,6 @@
                         <label for="source">Source:</label>
                         <select class="form-control" id="source" name="source" required>
                             <option selected disabled>----select option----</option>
-                            <option value="0" {% if source == "0" %}selected{% endif %}>Seo</option>
                             <option value="1" {% if source == "1" %}selected{% endif %}>Ads</option>
                             <option value="2" {% if source == "2" %}selected{% endif %}>Direct</option>
                         </select>
@@ -37,7 +34,7 @@
                     <div class="form-group col-md-3">
                         <label for="browser">Browser:</label>
                         <select class="form-control" id="browser" name="browser" required>
-                            <option selected disabled>----select option----</option>
+                            <option selected disabled>select option</option>
                             <option value="0" {% if browser == "0" %}selected{% endif %}>Chrome</option>
                             <option value="1" {% if browser == "1" %}selected{% endif %}>Opera</option>
                             <option value="2" {% if browser == "2" %}selected{% endif %}>Safari</option>
@@ -48,9 +45,9 @@
 
                     <!-- Sex -->
                     <div class="form-group col-md-3">
-                        <label for="sex">Sex:</label>
+                        <label for="sex">Gender:</label>
                         <select class="form-control" id="sex" name="sex" required>
-                            <option selected disabled>----select option----</option>
+                            <option selected disabled>select gender</option>
                             <option value="1" {% if sex == "1" %}selected{% endif %}>Male</option>
                             <option value="0" {% if sex == "0" %}selected{% endif %}>Female</option>
                         </select>
@@ -69,7 +66,7 @@
                 <div class="form-row">
                     <!-- Country Name -->
                     <div class="form-group col-md-3">
-                        <label for="country_name">Country Name:</label>
+                        <label for="country_name">Country:</label>
                         <select name="country_name" id="country_name" class="form-control">
                             {% for country in country_names %}
                                 <option value="{{ country }}" {% if country == country_name %}selected{% endif %}>{{ country }}</option>
@@ -91,7 +88,7 @@
 
                     <!-- Signup Day -->
                     <div class="form-group col-md-3">
-                        <label for="signup_day">Signup Day:</label>
+                        <label for="signup_day">Signup Date:</label>
                         <input type="number" class="form-control" id="signup_day" name="signup_day" value="{{ signup_day }}" required>
                     </div>
                 </div>
@@ -99,7 +96,7 @@
                 <div class="form-row">
                     <!-- Signup Day Name -->
                     <div class="form-group col-md-3">
-                        <label for="signup_day_name">Signup Day Name:</label>
+                        <label for="signup_day_name">Signup Day:</label>
                         <select name="signup_day_name" id="signup_day_name" class="form-control">
                             {% for day in signup_day_names %}
                                 <option value="{{ day }}" {% if day == signup_day_name %}selected{% endif %}>{{ day }}</option>
@@ -115,13 +112,13 @@
 
                     <!-- Purchase Day -->
                     <div class="form-group col-md-3">
-                        <label for="purchase_day">Purchase Day:</label>
+                        <label for="purchase_day">Purchase Date:</label>
                         <input type="number" class="form-control" id="purchase_day" name="purchase_day" value="{{ purchase_day }}" required>
                     </div>
 
                     <!-- Purchase Day Name -->
                     <div class="form-group col-md-3">
-                        <label for="purchase_day_name">Purchase Day Name:</label>
+                        <label for="purchase_day_name">Purchase Day:</label>
                         <select name="purchase_day_name" id="purchase_day_name" class="form-control">
                             {% for day in purchase_day_names %}
                                 <option value="{{ day }}" {% if day == purchase_day_name %}selected{% endif %}>{{ day }}</option>
@@ -133,7 +130,7 @@
                 <div class="form-row">
                     <!-- Purchase Over Time -->
                     <div class="form-group col-md-3">
-                        <label for="purchase_over_time">Purchase Over Time:</label>
+                        <label for="purchase_over_time">Purchase Amount:</label>
                         <input type="number" step="0.01" class="form-control" id="purchase_over_time" name="purchase_over_time" value="{{ purchase_over_time }}" required>
                     </div>
                 </div>
@@ -144,7 +141,7 @@
     </div>
 
     <footer class="footer">
-        <p>&copy; 2024 E-commerce Fraud Detection App | Developed by <a href="https://github.com/Md-Emon-Hasan">Md Emon Hasan</a></p>
+        <p>&copy; E-commerce Fraud Detector App</p>
     </footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
